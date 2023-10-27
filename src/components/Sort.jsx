@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
-const SORT_LIST = ['популярности', 'цене', 'алфавиту'];
-const Sort = () => {
-  const [popup, setPopup] = useState(false); //Состояние отк/закр окна поп-апа
-  const [sort, setSort] = useState(0); //Индекс храним в состояние (выборка элемента)
+/* eslint-disable react/prop-types */
+import { useState } from 'react';
+const SORT_LIST = [
+  { name: 'популярности(Desc)', sortProperty: 'rating' },
+  { name: 'популярности(Asc)', sortProperty: '-rating' },
+  { name: 'цене(Desc)', sortProperty: 'price' },
+  { name: 'цене(Asc)', sortProperty: '-price' },
+  { name: 'алфавиту(Desc)', sortProperty: 'title' },
+  { name: 'алфавиту(Asc)', sortProperty: '-title' },
+];
+
+const Sort = ({ sort, onSortClick }) => {
+  const [popup, setPopup] = useState(false);
   const handlerPopup = i => {
-    setSort(i);
+    onSortClick(i);
     setPopup(!popup);
-  }; //Функция при выборе из списка данных будет записывать выбранный index элемента и вкл/выкл окно
+  };
   return (
     <div className="sort">
       <div className="sort__label">
@@ -23,25 +31,20 @@ const Sort = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span
-          onClick={() => setPopup(!popup)} //отк/закр окно по клику на имя
-        >
-          {SORT_LIST[sort]}{' '}
-          {/* Рисуем список и передаём index выбраного элемента */}
-        </span>
+        <span onClick={() => setPopup(!popup)}>{sort.name}</span>
       </div>
       {popup && (
         <div className="sort__popup">
-          {' '}
-          {/* пока false работает левая сторона */}
           <ul>
             {SORT_LIST.map((value, i) => (
               <li
-                onClick={() => handlerPopup(i)} //при клике отрабатывает функция
-                className={sort === i ? 'active' : ''} //Если sort совпадает с i будет подсветка active
+                onClick={() => handlerPopup(value)}
+                className={
+                  sort.sortProperty === value.sortProperty ? 'active' : ''
+                }
                 key={i}
               >
-                {value}
+                {value.name}
               </li>
             ))}
           </ul>

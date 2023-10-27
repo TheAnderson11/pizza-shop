@@ -1,6 +1,6 @@
 import styles from './Search.module.scss';
 
-const Search = () => {
+const Search = ({ search, setSearch }) => {
   return (
     <div className={styles.root}>
       <svg
@@ -37,7 +37,12 @@ const Search = () => {
           y2="20.366"
         />
       </svg>
-      <input type="text" className={styles.input} />
+      <input
+        type="text"
+        className={styles.input}
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+      />
       <svg
         className={styles.clearIcon}
         viewBox="0 0 20 20"
