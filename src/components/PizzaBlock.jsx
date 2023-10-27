@@ -1,5 +1,11 @@
-import React from 'react';
-const PizzaBlock = ({ title, price /* Тут получаю данные */ }) => {
+import React, { useState } from 'react';
+const PizzaBlock = ({ title, price }) => {
+  const [counter, setCounter] =
+    useState(0); /* Объязательно в состояние передать число */
+  const counterHandler = e => {
+    setCounter(counter + 1); /* обновляем состояние, добавляем к counter + 1 */
+    e.preventDefault(); /*для предотвращения перезагрузки/обновления браузера */
+  };
   return (
     <div className="pizza-block">
       <img
@@ -8,7 +14,6 @@ const PizzaBlock = ({ title, price /* Тут получаю данные */ }) =
         alt="Pizza"
       />
       <h4 className="pizza-block__title">{title}</h4>
-      {/* Отображаю данные title */}
       <div className="pizza-block__selector">
         <ul>
           <li className="active">тонкое</li>
@@ -22,8 +27,10 @@ const PizzaBlock = ({ title, price /* Тут получаю данные */ }) =
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price}$</div>
-        {/* Отображаю данные price */}
-        <div className="button button--outline button--add">
+        <div
+          className="button button--outline button--add"
+          onClick={e => counterHandler(e)}
+        >
           <svg
             width="12"
             height="12"
@@ -37,7 +44,7 @@ const PizzaBlock = ({ title, price /* Тут получаю данные */ }) =
             />
           </svg>
           <span>Добавить</span>
-          <i>2</i>
+          <i>{counter}</i>
         </div>
       </div>
     </div>
