@@ -1,5 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+const SORT_LIST = ['популярности', 'цене', 'алфавиту'];
 const Sort = () => {
+  const [popup, setPopup] = useState(false); //Состояние отк/закр окна поп-апа
+  const [sort, setSort] = useState(0); //Индекс храним в состояние (выборка элемента)
+  const handlerPopup = i => {
+    setSort(i);
+    setPopup(!popup);
+  }; //Функция при выборе из списка данных будет записывать выбранный index элемента и вкл/выкл окно
   return (
     <div className="sort">
       <div className="sort__label">
@@ -16,15 +23,30 @@ const Sort = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span
+          onClick={() => setPopup(!popup)} //отк/закр окно по клику на имя
+        >
+          {SORT_LIST[sort]}{' '}
+          {/* Рисуем список и передаём index выбраного элемента */}
+        </span>
       </div>
-      <div className="sort__popup">
-        <ul>
-          <li className="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
-        </ul>
-      </div>
+      {popup && (
+        <div className="sort__popup">
+          {' '}
+          {/* пока false работает левая сторона */}
+          <ul>
+            {SORT_LIST.map((value, i) => (
+              <li
+                onClick={() => handlerPopup(i)} //при клике отрабатывает функция
+                className={sort === i ? 'active' : ''} //Если sort совпадает с i будет подсветка active
+                key={i}
+              >
+                {value}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

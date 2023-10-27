@@ -19,10 +19,7 @@ const App = () => {
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
             {fakeData.map(obj => (
-              <PizzaBlock
-                {...obj}
-                key={obj.id}
-              /> /*Деструктуризацией передаем в компонент все данные ...obj */
+              <PizzaBlock {...obj} key={obj.id} />
             ))}
           </div>
         </div>

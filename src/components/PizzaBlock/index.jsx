@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
-const TYPES_PROPERTY = ['тонкое', 'традиционное']; /* значения */
+import { useState } from 'react';
+const TYPES_PROPERTY = ['тонкое', 'традиционное'];
 
 const PizzaBlock = ({ title, price, imageUrl, types, sizes }) => {
   const [counter, setCounter] = useState(0);
-  const [type, setType] =
-    useState(
-      0,
-    ); /* Создаём состояние для того чтобы записывать в него index элемента на который мы будем нажимать */
-  const [size, setSize] = useState(0); /* тоже самое */
+  const [type, setType] = useState(0);
+  const [size, setSize] = useState(0);
 
   const counterHandler = e => {
     setCounter(counter + 1);
@@ -19,34 +16,24 @@ const PizzaBlock = ({ title, price, imageUrl, types, sizes }) => {
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
-          {types.map((value, i /* Проходимся по массиву */) => (
+          {types.map((value, i) => (
             <li
               key={i}
-              onClick={() =>
-                setType(i)
-              } /*по клику передаём в состояние выбранный индекс*/
-              className={
-                type === value ? 'active' : ''
-              } /*переданый в состояние индекс сравниваем с значением*/
+              onClick={() => setType(i)}
+              className={type === value ? 'active' : ''}
             >
               {TYPES_PROPERTY[value]}
-              {/*отрисовуем ранее созданное значения переменной, и присваеваем значение индексу выбраного типа*/}
             </li>
           ))}
         </ul>
         <ul>
-          {sizes.map((value, i /* Проходимся по массиву */) => (
+          {sizes.map((value, i) => (
             <li
               key={i}
-              onClick={() =>
-                setSize(i)
-              } /*по клику передаём в состояние выбранный индекс*/
-              className={
-                size === i ? 'active' : ''
-              } /*переданый в состояние индекс сравниваем с индексом*/
+              onClick={() => setSize(i)}
+              className={size === i ? 'active' : ''}
             >
               {value + 'cm.'}
-              {/*отрисовуем значение*/}
             </li>
           ))}
         </ul>
