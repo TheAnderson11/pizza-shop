@@ -17,7 +17,8 @@ const App = () => {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            <PizzaBlock />
+            <PizzaBlock title="Мексиканская" price={500} />
+            {/* Передаю пропс title & price */}
           </div>
         </div>
       </div>
