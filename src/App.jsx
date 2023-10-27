@@ -3,6 +3,7 @@ import Categories from './components/Categories';
 import Header from './components/Header';
 import PizzaBlock from './components/PizzaBlock';
 import Sort from './components/Sort';
+import fakeData from './assets/dataPizzas.json';
 import './scss/app.scss';
 
 const App = () => {
@@ -17,7 +18,12 @@ const App = () => {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            <PizzaBlock title="Мексиканская" price={500} />
+            {fakeData.map(obj => (
+              <PizzaBlock
+                {...obj}
+                key={obj.id}
+              /> /*Деструктуризацией передаем в компонент все данные ...obj */
+            ))}
           </div>
         </div>
       </div>

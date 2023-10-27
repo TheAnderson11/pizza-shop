@@ -1,28 +1,54 @@
 import React, { useState } from 'react';
-const PizzaBlock = ({ title, price }) => {
-  const [counter, setCounter] =
-    useState(0); /* Объязательно в состояние передать число */
+const TYPES_PROPERTY = ['тонкое', 'традиционное']; /* значения */
+
+const PizzaBlock = ({ title, price, imageUrl, types, sizes }) => {
+  const [counter, setCounter] = useState(0);
+  const [type, setType] =
+    useState(
+      0,
+    ); /* Создаём состояние для того чтобы записывать в него index элемента на который мы будем нажимать */
+  const [size, setSize] = useState(0); /* тоже самое */
+
   const counterHandler = e => {
-    setCounter(counter + 1); /* обновляем состояние, добавляем к counter + 1 */
-    e.preventDefault(); /*для предотвращения перезагрузки/обновления браузера */
+    setCounter(counter + 1);
+    e.preventDefault();
   };
   return (
     <div className="pizza-block">
-      <img
-        className="pizza-block__image"
-        src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-        alt="Pizza"
-      />
+      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
-          <li className="active">тонкое</li>
-          <li>традиционное</li>
+          {types.map((value, i /* Проходимся по массиву */) => (
+            <li
+              key={i}
+              onClick={() =>
+                setType(i)
+              } /*по клику передаём в состояние выбранный индекс*/
+              className={
+                type === value ? 'active' : ''
+              } /*переданый в состояние индекс сравниваем с значением*/
+            >
+              {TYPES_PROPERTY[value]}
+              {/*отрисовуем ранее созданное значения переменной, и присваеваем значение индексу выбраного типа*/}
+            </li>
+          ))}
         </ul>
         <ul>
-          <li className="active">26 см.</li>
-          <li>30 см.</li>
-          <li>40 см.</li>
+          {sizes.map((value, i /* Проходимся по массиву */) => (
+            <li
+              key={i}
+              onClick={() =>
+                setSize(i)
+              } /*по клику передаём в состояние выбранный индекс*/
+              className={
+                size === i ? 'active' : ''
+              } /*переданый в состояние индекс сравниваем с индексом*/
+            >
+              {value + 'cm.'}
+              {/*отрисовуем значение*/}
+            </li>
+          ))}
         </ul>
       </div>
       <div className="pizza-block__bottom">
