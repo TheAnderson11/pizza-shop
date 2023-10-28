@@ -1,18 +1,26 @@
-//React-Context\\
-#Заменить propsDrilling на Context
-//№1 App.jsx
-1. Создать контекст ,перед в value значения search, setSearch
-2. export созданный контекст
-3. Обернуть компонент в конткест . Provider 
+//Connection-React-Redux\\
 
-//№2 Home.jsx: 
-1. Импортировать useContext, и сам контекст из App.js
+//№1 src/redux
+1. Создать папку redux вложеность,folder redux => store.js ,folder redux => folder slice => filterSlices.js
 
-//№3 Header.jsx:
-1. Удалить propsDrilling
+//№2 redux/slice/filter.js
+1. Создать filterSlices по документации ссылка внизу.
+2. Переписать логику sort & cotegory
 
-//№4 Search.jsx
-1. Импортировать useContext, и сам контекст из App.js
+//№3 store.js
+1. import filterSlices
+
+//№4 main.jsx
+1. Подключить Provider 'react-redux'
+
+//№5 Home.jsx
+1. Импортировать useDispatch, useSelector
+2. Импортировать из filterSlices состояния ,пример 'setSort' & 'setCategory'
+3. Переписать логику sort & category создать константу объект через useSelector state => state."filters",
+filter импортируется в store.js 
+4. Создать 2 функции handler в которые передавать через dispatch который создовали изменения index or id,
+5. Заменить старые функции обработчики на новые, передавать в соответствующие компоненты.
 
 ##Helper
-//Используем: [createContext,useContext]
+https://react-redux.js.org/tutorials/quick-start #DOC
+//Используем: [React/redux,redux/toolkit,useSelector,useDispatch]
