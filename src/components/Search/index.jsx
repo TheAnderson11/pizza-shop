@@ -4,6 +4,7 @@ import { SearchContext } from '../../App';
 
 const Search = () => {
   const { search, setSearch } = useContext(SearchContext);
+
   return (
     <div className={styles.root}>
       <svg

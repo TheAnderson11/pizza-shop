@@ -1,6 +1,6 @@
 # Pizza Market
 
-Material - https://peaceful-dove-11d.notion.site/React-Pizza-v2-REMASTERED-655fa3a5ea4f4bce8faeee2f28a8fb22
+Material - https://www.youtube.com/watch?v=YAsKVCNqdy4&list=PL0FGkDGJQjJG9eI85xM1_iLIf6BcEdaNl&index=15&ab_channel=ArchakovBlog
 use repository : git checkout "commit 1" and so next.
 В каждом новом коммите ответ на предыдущую таску.
 

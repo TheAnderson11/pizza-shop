@@ -13,10 +13,10 @@ const App = () => {
   return (
     <div className="wrapper">
       <SearchContext.Provider value={{ search, setSearch }}>
-        <Header search={search} setSearch={setSearch} />
+        <Header />
         <div className="content">
           <Routes>
-            <Route path="" element={<Home search={search} />} />
+            <Route path="" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="*" element={<NotFoundBlock />} />
           </Routes>

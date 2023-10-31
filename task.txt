@@ -1,26 +1,32 @@
-//Connection-React-Redux\\
+//React-library-lodash.debounce\\
 
+/\/\/\/\/\/\/\/\/\/\/\/\
 //№1 src/redux
-1. Создать папку redux вложеность,folder redux => store.js ,folder redux => folder slice => filterSlices.js
+1. Добавить ещё два глобальных состояния [search, pagination] 
+/\/\/\/\/\/\/\/\/\/\/\/\
 
-//№2 redux/slice/filter.js
-1. Создать filterSlices по документации ссылка внизу.
-2. Переписать логику sort & cotegory
+/\/\/\/\/\/\/\/\/\/\/\/\
+//№2 Home.jsx
+1. Заменить fetch на axios.
+2. Передать в компонент Pagination value в метод forcePage 
+# react-paginate считает по индексу [0,1..] по этому передать значение и отбавить у элемента 1.
+/\/\/\/\/\/\/\/\/\/\/\/\
 
-//№3 store.js
-1. import filterSlices
-
-//№4 main.jsx
-1. Подключить Provider 'react-redux'
-
-//№5 Home.jsx
-1. Импортировать useDispatch, useSelector
-2. Импортировать из filterSlices состояния ,пример 'setSort' & 'setCategory'
-3. Переписать логику sort & category создать константу объект через useSelector state => state."filters",
-filter импортируется в store.js 
-4. Создать 2 функции handler в которые передавать через dispatch который создовали изменения index or id,
-5. Заменить старые функции обработчики на новые, передавать в соответствующие компоненты.
+/\/\/\/\/\/\/\/\/\/\/\/\
+//№3 Search.jsx
+1. Клик на крестик поля поиска очищать содержимое поля и наводить фокус на поле.
+#Первое: Отоброжать svg крестик только когда в поле есть текст.  
+#Второе: Обращаться к поля через референс.
+2. Создать 2 состояния , 
+#Первое: Для отрисовки введёного в инпут поля текст,
+#Второе: Устранить перерисовку функции для отправки на сервер поля search,
+#Состояние для отправки на сервер с задержкой через debounce.
+/\/\/\/\/\/\/\/\/\/\/\/\
 
 ##Helper
-https://react-redux.js.org/tutorials/quick-start #DOC
-//Используем: [React/redux,redux/toolkit,useSelector,useDispatch]
+//Используем: [useRef,useCallback,debounce,focus,redux]
+
+#useCallback - Создаётся при первом рендере и больше пересоздоваться не будет.
+
+#useRef возвращает изменяемый ref-объект, свойство .current которого инициализируется переданным аргументом (initialValue).
+#Возвращённый объект будет сохраняться в течение всего времени жизни компонента.

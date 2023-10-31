@@ -4,17 +4,23 @@ import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCategory, setSort } from '../redux/filterSlice';
 import { SearchContext } from '../App';
 
 const Home = () => {
-  const { search } = useContext(SearchContext);
+  const { sort, category } = useSelector(state => state.filter);
+  const dispatch = useDispatch();
+  const sortHandler = id => {
+    dispatch(setSort(id));
+  };
+  const categoryHandler = id => {
+    dispatch(setCategory(id));
+  };
 
+  const { search } = useContext(SearchContext);
   const [pagination, setPagination] = useState(1);
-  const [category, onCategoryClick] = useState(0);
-  const [sort, onSortClick] = useState({
-    name: 'популярности(Desc)',
-    sortProperty: 'rating',
-  });
+
   const [isData, setIsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -39,9 +45,9 @@ const Home = () => {
       <div className="content__top">
         <Categories
           category={category}
-          onCategoryClick={i => onCategoryClick(i)}
+          onCategoryClick={i => categoryHandler(i)}
         />
-        <Sort sort={sort} onSortClick={i => onSortClick(i)} />
+        <Sort sort={sort} onSortClick={i => sortHandler(i)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
@@ -49,7 +55,7 @@ const Home = () => {
           ? [...new Array(6)].map((_, id) => <Skeleton key={id} />)
           : isData.map(obj => <PizzaBlock {...obj} key={obj.id} />)}
       </div>
-      <Pagination setPagination={setPagination} />
+      <Pagination paginationHandler={setPagination} />
     </div>
   );
 };
