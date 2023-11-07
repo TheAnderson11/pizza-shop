@@ -3,15 +3,23 @@ import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
-import Sort from '../components/Sort';
+import Sort, { SORT_LIST } from '../components/Sort';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCategory, setPaginationCount, setSort } from '../redux/filterSlice';
+import {
+  setCategory,
+  setFilters,
+  setPaginationCount,
+  setSort,
+} from '../redux/filterSlice';
 import axios from 'axios';
+import QueryString from 'qs';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const { sort, categoryId, search, currentPage } = useSelector(
     state => state.filter,
   );
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const sortHandler = id => {
     dispatch(setSort(id));
@@ -26,6 +34,24 @@ const Home = () => {
 
   const [isData, setIsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (window.location.search) {
+      const paramsParse = QueryString.parse(
+        window.location.search.substring(1),
+      );
+      const sort = SORT_LIST.find(
+        obj => obj.sortProperty == paramsParse.sortProperty,
+      );
+      dispatch(
+        setFilters({
+          ...paramsParse,
+          sort,
+        }),
+      );
+    }
+  }, []); //parse URL params
+
   useEffect(() => {
     const paginateQuery = `page=${currentPage}&limit=4`;
     const categoryQuery = categoryId > 0 ? `category=${categoryId}` : '';
@@ -44,7 +70,16 @@ const Home = () => {
         setIsData(res.data);
         setIsLoading(false);
       });
-  }, [sort.sortProperty, categoryId, currentPage, search]);
+  }, [sort.sortProperty, categoryId, currentPage, search]); //request axios on server
+
+  useEffect(() => {
+    const queryParams = QueryString.stringify({
+      sortProperty: sort.sortProperty,
+      categoryId,
+      currentPage,
+    });
+    navigate(`?${queryParams}`);
+  }, [sort.sortProperty, categoryId, currentPage]); //create query params
 
   return (
     <div className="container">
