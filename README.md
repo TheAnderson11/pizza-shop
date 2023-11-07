@@ -1,6 +1,6 @@
 # Pizza Market
 
-Material - https://www.youtube.com/watch?v=YAsKVCNqdy4&list=PL0FGkDGJQjJG9eI85xM1_iLIf6BcEdaNl&index=15&ab_channel=ArchakovBlog
+Material - https://www.youtube.com/watch?v=e-sm4OOXHBc&list=PLWjl5fylx3Tg00VvafRxtMEDspkcR1y8W&index=5&t=571s&ab_channel=ArchakovBlog
 use repository : git checkout "commit 1" and so next.
 В каждом новом коммите ответ на предыдущую таску.
 

@@ -1,9 +1,29 @@
-import { useContext } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import styles from './Search.module.scss';
-import { SearchContext } from '../../App';
+import { useDispatch } from 'react-redux';
+import debounce from 'lodash.debounce';
+import { setSearch } from '../../redux/filterSlice';
 
 const Search = () => {
-  const { search, setSearch } = useContext(SearchContext);
+  const dispatch = useDispatch();
+  const searchRef = useRef(null);
+
+  const [searchInput, setSearchInput] = useState('');
+
+  const requestOnServer = useCallback(
+    debounce(str => {
+      dispatch(setSearch(str));
+    }, 333),
+    [],
+  );
+  const searchHandler = event => {
+    requestOnServer(event.target.value);
+    setSearchInput(event.target.value);
+  };
+  const searchClearInput = () => {
+    setSearchInput('');
+    searchRef.current.focus();
+  };
 
   return (
     <div className={styles.root}>
@@ -42,18 +62,22 @@ const Search = () => {
         />
       </svg>
       <input
+        ref={searchRef}
         type="text"
         className={styles.input}
-        value={search}
-        onChange={e => setSearch(e.target.value)}
+        value={searchInput}
+        onChange={searchHandler}
       />
-      <svg
-        className={styles.clearIcon}
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" />
-      </svg>
+      {searchInput && (
+        <svg
+          onClick={searchClearInput}
+          className={styles.clearIcon}
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" />
+        </svg>
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
-const SORT_LIST = [
+export const SORT_LIST = [
   { name: 'популярности(Desc)', sortProperty: 'rating' },
   { name: 'популярности(Asc)', sortProperty: '-rating' },
   { name: 'цене(Desc)', sortProperty: 'price' },
