@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState } from 'react';
 export const SORT_LIST = [
   { name: 'популярности(Desc)', sortProperty: 'rating' },
@@ -13,7 +12,7 @@ const Sort = ({ sort, onSortClick }) => {
   const [popup, setPopup] = useState(false);
   const handlerPopup = i => {
     onSortClick(i);
-    setPopup(!popup);
+    setPopup(false);
   };
   return (
     <div className="sort">
@@ -31,7 +30,7 @@ const Sort = ({ sort, onSortClick }) => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setPopup(!popup)}>{sort.name}</span>
+        <span onClick={() => setPopup(true)}>{sort.name}</span>
       </div>
       {popup && (
         <div className="sort__popup">

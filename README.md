@@ -1,8 +1,6 @@
 # Pizza Market
 
-Material - https://www.youtube.com/watch?v=e-sm4OOXHBc&list=PLWjl5fylx3Tg00VvafRxtMEDspkcR1y8W&index=5&t=571s&ab_channel=ArchakovBlog
-use repository : git checkout "commit 1" and so next.
-В каждом новом коммите ответ на предыдущую таску.
+Material - https://www.youtube.com/watch?v=RhOvu20t0Go&list=PLWjl5fylx3Tg00VvafRxtMEDspkcR1y8W&index=1&ab_channel=ArchakovBlog use repository : git checkout "commit 1" and so next. В каждом новом коммите ответ на предыдущую таску.
 
 # React + Vite
 

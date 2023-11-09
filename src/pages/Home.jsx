@@ -1,24 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort, { SORT_LIST } from '../components/Sort';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import QueryString from 'qs';
+import { useNavigate } from 'react-router-dom';
 import {
   setCategory,
   setFilters,
   setPaginationCount,
   setSort,
-} from '../redux/filterSlice';
-import axios from 'axios';
-import QueryString from 'qs';
-import { useNavigate } from 'react-router-dom';
+} from '../redux/slices/filterSlice';
 
 const Home = () => {
   const { sort, categoryId, search, currentPage } = useSelector(
     state => state.filter,
   );
+  const isSearch = useRef(false);
+  const isMounted = useRef(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const sortHandler = id => {
@@ -35,6 +37,38 @@ const Home = () => {
   const [isData, setIsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const axiosPizzas = () => {
+    setIsLoading(true);
+    const paginateQuery = `page=${currentPage}&limit=4`;
+    const categoryQuery = categoryId > 0 ? `category=${categoryId}` : '';
+    const sortQuery = `sortBy=${sort.sortProperty.replace('-', '')}`;
+    const orderQuery = `order=${
+      sort.sortProperty.includes('-') ? 'asc' : 'desc'
+    }`;
+    const searchQuery = `search=${search ? search : ''}`;
+    axios
+      .get(
+        `https://64aaf2bd0c6d844abedf0487.mockapi.io/items?${paginateQuery}&
+		${categoryQuery}&${sortQuery}&${orderQuery}&${searchQuery}`,
+      )
+      .then(res => {
+        setIsData(res.data);
+        setIsLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    if (isMounted.current) {
+      const queryParams = QueryString.stringify({
+        sortProperty: sort.sortProperty,
+        categoryId,
+        currentPage,
+      });
+      navigate(`?${queryParams}`);
+    }
+    isMounted.current = true;
+  }, [sort.sortProperty, categoryId, currentPage]); //create query params
+
   useEffect(() => {
     if (window.location.search) {
       const paramsParse = QueryString.parse(
@@ -49,37 +83,17 @@ const Home = () => {
           sort,
         }),
       );
+      isSearch.current = true;
     }
   }, []); //parse URL params
 
   useEffect(() => {
-    const paginateQuery = `page=${currentPage}&limit=4`;
-    const categoryQuery = categoryId > 0 ? `category=${categoryId}` : '';
-    const sortQuery = `sortBy=${sort.sortProperty.replace('-', '')}`;
-    const orderQuery = `order=${
-      sort.sortProperty.includes('-') ? 'asc' : 'desc'
-    }`;
-    const searchQuery = `search=${search ? search : ''}`;
-    setIsLoading(true);
-    axios
-      .get(
-        `https://64aaf2bd0c6d844abedf0487.mockapi.io/items?${paginateQuery}&
-		${categoryQuery}&${sortQuery}&${orderQuery}&${searchQuery}`,
-      )
-      .then(res => {
-        setIsData(res.data);
-        setIsLoading(false);
-      });
+    window.scrollTo(0, 0);
+    if (!isSearch.current) {
+      axiosPizzas();
+    }
+    isSearch.current = false;
   }, [sort.sortProperty, categoryId, currentPage, search]); //request axios on server
-
-  useEffect(() => {
-    const queryParams = QueryString.stringify({
-      sortProperty: sort.sortProperty,
-      categoryId,
-      currentPage,
-    });
-    navigate(`?${queryParams}`);
-  }, [sort.sortProperty, categoryId, currentPage]); //create query params
 
   return (
     <div className="container">
