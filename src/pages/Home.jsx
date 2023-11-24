@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort, { SORT_LIST } from '../components/Sort';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import QueryString from 'qs';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -14,11 +13,13 @@ import {
   setPaginationCount,
   setSort,
 } from '../redux/slices/filterSlice';
+import { axiosReqPizzas } from '../redux/slices/pizzaSlice';
 
 const Home = () => {
   const { sort, categoryId, search, currentPage } = useSelector(
     state => state.filter,
   );
+  const { items, status } = useSelector(state => state.pizza);
   const isSearch = useRef(false);
   const isMounted = useRef(false);
   const navigate = useNavigate();
@@ -34,11 +35,7 @@ const Home = () => {
     dispatch(setPaginationCount(id));
   };
 
-  const [isData, setIsData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
   const axiosPizzas = () => {
-    setIsLoading(true);
     const paginateQuery = `page=${currentPage}&limit=4`;
     const categoryQuery = categoryId > 0 ? `category=${categoryId}` : '';
     const sortQuery = `sortBy=${sort.sortProperty.replace('-', '')}`;
@@ -46,15 +43,16 @@ const Home = () => {
       sort.sortProperty.includes('-') ? 'asc' : 'desc'
     }`;
     const searchQuery = `search=${search ? search : ''}`;
-    axios
-      .get(
-        `https://64aaf2bd0c6d844abedf0487.mockapi.io/items?${paginateQuery}&
-		${categoryQuery}&${sortQuery}&${orderQuery}&${searchQuery}`,
-      )
-      .then(res => {
-        setIsData(res.data);
-        setIsLoading(false);
-      });
+
+    dispatch(
+      axiosReqPizzas({
+        paginateQuery,
+        categoryQuery,
+        sortQuery,
+        orderQuery,
+        searchQuery,
+      }),
+    );
   };
 
   useEffect(() => {
@@ -94,7 +92,8 @@ const Home = () => {
     }
     isSearch.current = false;
   }, [sort.sortProperty, categoryId, currentPage, search]); //request axios on server
-
+  const skeleton = [...new Array(6)].map((_, id) => <Skeleton key={id} />);
+  const pizzas = items.map(obj => <PizzaBlock {...obj} key={obj.id} />);
   return (
     <div className="container">
       <div className="content__top">
@@ -105,11 +104,21 @@ const Home = () => {
         <Sort sort={sort} onSortClick={i => sortHandler(i)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
-        {isLoading
-          ? [...new Array(6)].map((_, id) => <Skeleton key={id} />)
-          : isData.map(obj => <PizzaBlock {...obj} key={obj.id} />)}
-      </div>
+
+      {status === 'error' ? (
+        <div className="content__error-info">
+          <h2>Произошла ошибка 😕</h2>
+          <p>
+            К сожалению, не удалось получить питсы. Попробуйте повторить попытку
+            позже
+          </p>
+        </div>
+      ) : (
+        <div className="content__items">
+          {status === 'loading' ? skeleton : pizzas}
+        </div>
+      )}
+
       <Pagination state={currentPage} paginationHandler={paginationHandler} />
     </div>
   );
