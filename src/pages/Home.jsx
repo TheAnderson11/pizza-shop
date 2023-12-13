@@ -8,18 +8,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import QueryString from 'qs';
 import { useNavigate } from 'react-router-dom';
 import {
+  filterSelector,
   setCategory,
   setFilters,
   setPaginationCount,
   setSort,
 } from '../redux/slices/filterSlice';
-import { axiosReqPizzas } from '../redux/slices/pizzaSlice';
+import { axiosReqPizzas, pizzaSelector } from '../redux/slices/pizzaSlice';
 
 const Home = () => {
-  const { sort, categoryId, search, currentPage } = useSelector(
-    state => state.filter,
-  );
-  const { items, status } = useSelector(state => state.pizza);
+  const { sort, categoryId, search, currentPage } = useSelector(filterSelector);
+  const { items, status } = useSelector(pizzaSelector);
   const isSearch = useRef(false);
   const isMounted = useRef(false);
   const navigate = useNavigate();
