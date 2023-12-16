@@ -6,7 +6,7 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort, { SORT_LIST } from '../components/Sort';
 import { useDispatch, useSelector } from 'react-redux';
 import QueryString from 'qs';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   filterSelector,
   setCategory,
@@ -92,7 +92,11 @@ const Home = () => {
     isSearch.current = false;
   }, [sort.sortProperty, categoryId, currentPage, search]); //request axios on server
   const skeleton = [...new Array(6)].map((_, id) => <Skeleton key={id} />);
-  const pizzas = items.map(obj => <PizzaBlock {...obj} key={obj.id} />);
+  const pizzas = items.map(obj => (
+    <Link to={`/pizza/${obj.id}`} key={obj.id}>
+      <PizzaBlock {...obj} />
+    </Link>
+  ));
   return (
     <div className="container">
       <div className="content__top">
