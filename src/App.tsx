@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import NotFoundBlock from './components/NotFoundBlock';
 import './scss/app.scss';

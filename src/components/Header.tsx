@@ -3,14 +3,15 @@ import { Link, useLocation } from 'react-router-dom';
 import Search from './Search';
 import { useSelector } from 'react-redux';
 import { cartSelector } from '../redux/slices/cartSlice';
+import { FC } from 'react';
 
-const Header = () => {
+const Header:FC = () => {
   const { items } = useSelector(cartSelector);
-  const totalCount = items.reduce((sum, item) => {
+  const totalCount = items.reduce((sum:number, item:any) => {
     return sum + item.count;
   }, 0);
   const itemPrice = items.reduce(
-    (sum, item) => item.count * item.price + sum,
+    (sum:number, item:any) => item.count * item.price + sum,
     0,
   );
   const { pathname } = useLocation();

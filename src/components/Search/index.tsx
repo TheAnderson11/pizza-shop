@@ -1,12 +1,12 @@
-import { useCallback, useRef, useState } from 'react';
+import { FC, useCallback, useRef, useState } from 'react';
 import styles from './Search.module.scss';
 import { useDispatch } from 'react-redux';
 import debounce from 'lodash.debounce';
 import { setSearch } from '../../redux/slices/filterSlice';
 
-const Search = () => {
+const Search:FC = () => {
   const dispatch = useDispatch();
-  const searchRef = useRef(null);
+  const searchRef = useRef<HTMLInputElement>(null);
 
   const [searchInput, setSearchInput] = useState('');
 
@@ -16,13 +16,13 @@ const Search = () => {
     }, 333),
     [],
   );
-  const searchHandler = event => {
+  const searchHandler = (event: any) => {
     requestOnServer(event.target.value);
     setSearchInput(event.target.value);
   };
   const searchClearInput = () => {
     setSearchInput('');
-    searchRef.current.focus();
+    searchRef.current?.focus();
   };
 
   return (

@@ -1,9 +1,18 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 const TYPES_PROPERTY = ['тонкое', 'традиционное'];
 import { useDispatch, useSelector } from 'react-redux';
 import { addItems, cartSelectorFindItems } from '../../redux/slices/cartSlice';
 
-const PizzaBlock = ({ id, title, price, imageUrl, types, sizes }) => {
+type pizzaBlockprop = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  types: number[];
+  sizes: number[];
+}
+
+const PizzaBlock:FC<pizzaBlockprop> = ({ id, title, price, imageUrl, types, sizes }) => {
   const dispatch = useDispatch();
   const counterCart = useSelector(cartSelectorFindItems(id));
   const addedCounter = counterCart ? counterCart.count : 0;

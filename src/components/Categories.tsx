@@ -1,3 +1,5 @@
+import { FC } from "react";
+
 const CATEGORY_LIST = [
   'Все',
   'Мясные',
@@ -7,7 +9,12 @@ const CATEGORY_LIST = [
   'Закрытые',
 ];
 
-const Categories = ({ category, onCategoryClick }) => {
+type categoriesProp = {
+  category: number;
+  onCategoryClick: any;
+}
+
+const Categories:FC<categoriesProp> = ({ category, onCategoryClick }) => {
   return (
     <div className="categories">
       <ul>

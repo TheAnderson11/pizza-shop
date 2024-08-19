@@ -1,5 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
-export const SORT_LIST = [
+import { FC, useEffect, useRef, useState } from 'react';
+
+type sortItem = {
+  name: string;
+  sortProperty: string;
+};
+type sortProp = {
+  sort: string;
+  onSortClick: any;
+}
+
+export const SORT_LIST: sortItem[] = [
   { name: 'популярности(Desc)', sortProperty: 'rating' },
   { name: 'популярности(Asc)', sortProperty: '-rating' },
   { name: 'цене(Desc)', sortProperty: 'price' },
@@ -8,15 +18,15 @@ export const SORT_LIST = [
   { name: 'алфавиту(Asc)', sortProperty: '-title' },
 ];
 
-const Sort = ({ sort, onSortClick }) => {
-  const sortRef = useRef();
+const Sort:FC<sortProp> = ({ sort, onSortClick }) => {
+  const sortRef = useRef<HTMLDivElement>(null);
   const [popup, setPopup] = useState(false);
   const handlerPopup = i => {
     onSortClick(i);
     setPopup(false);
   };
   useEffect(() => {
-    const onClickOutside = event => {
+    const onClickOutside = (event:any) => {
       if (!event.composedPath().includes(sortRef.current)) {
         setPopup(false);
       }
