@@ -4,26 +4,29 @@ import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort, { SORT_LIST } from '../components/Sort';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import QueryString from 'qs';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
-  filterSelector,
   setCategory,
   setFilters,
   setPaginationCount,
   setSort,
-} from '../redux/slices/filterSlice';
-import { axiosReqPizzas, pizzaSelector } from '../redux/slices/pizzaSlice';
+} from '../redux/filter/slice';
+import { axiosReqPizzas } from '../redux/pizza/slice';
+import { useAppDispatch } from '../redux/store';
+import { pizzaSelector } from '../redux/pizza/selectors';
+import { filterSelector } from '../redux/filter/selectors';
+import { filterSliceState, SortType } from '../redux/filter/types';
 
-const Home:FC = () => {
+const Home: FC = () => {
   const { sort, categoryId, search, currentPage } = useSelector(filterSelector);
   const { items, status } = useSelector(pizzaSelector);
   const isSearch = useRef(false);
   const isMounted = useRef(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const sortHandler = (id: number) => {
+  const dispatch = useAppDispatch();
+  const sortHandler = (id: SortType) => {
     dispatch(setSort(id));
   };
   const categoryHandler = (id: number) => {
@@ -71,14 +74,16 @@ const Home:FC = () => {
       const paramsParse = QueryString.parse(
         window.location.search.substring(1),
       );
-      const sort = SORT_LIST.find(
-        obj => obj.sortProperty == paramsParse.sortProperty,
-      );
+
+      const sort =
+        SORT_LIST.find(obj => obj.sortProperty == paramsParse.sortProperty) ||
+        SORT_LIST[0];
+
       dispatch(
         setFilters({
           ...paramsParse,
           sort,
-        }),
+        } as filterSliceState),
       );
       isSearch.current = true;
     }
@@ -92,19 +97,12 @@ const Home:FC = () => {
     isSearch.current = false;
   }, [sort.sortProperty, categoryId, currentPage, search]); //request axios on server
   const skeleton = [...new Array(6)].map((_, id) => <Skeleton key={id} />);
-  const pizzas = items.map(obj => (
-    <Link to={`/pizza/${obj.id}`} key={obj.id}>
-      <PizzaBlock {...obj} />
-    </Link>
-  ));
+  const pizzas = items.map(obj => <PizzaBlock {...obj} />);
   return (
     <div className="container">
       <div className="content__top">
-        <Categories
-          category={categoryId}
-          onCategoryClick={categoryHandler}
-        />
-        <Sort sort={sort} onSortClick={i => sortHandler(i)} />
+        <Categories category={categoryId} onCategoryClick={categoryHandler} />
+        <Sort sort={sort} onSortClick={(i: SortType) => sortHandler(i)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
 

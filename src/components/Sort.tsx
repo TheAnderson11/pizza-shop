@@ -1,13 +1,14 @@
 import { FC, useEffect, useRef, useState } from 'react';
+import { SortType } from '../redux/slices/filterSlice';
 
 type sortItem = {
   name: string;
   sortProperty: string;
 };
 type sortProp = {
-  sort: string;
+  sort: SortType;
   onSortClick: any;
-}
+};
 
 export const SORT_LIST: sortItem[] = [
   { name: 'популярности(Desc)', sortProperty: 'rating' },
@@ -18,15 +19,15 @@ export const SORT_LIST: sortItem[] = [
   { name: 'алфавиту(Asc)', sortProperty: '-title' },
 ];
 
-const Sort:FC<sortProp> = ({ sort, onSortClick }) => {
+const Sort: FC<sortProp> = ({ sort, onSortClick }) => {
   const sortRef = useRef<HTMLDivElement>(null);
   const [popup, setPopup] = useState(false);
-  const handlerPopup = i => {
+  const handlerPopup = (i: number) => {
     onSortClick(i);
     setPopup(false);
   };
   useEffect(() => {
-    const onClickOutside = (event:any) => {
+    const onClickOutside = (event: any) => {
       if (!event.composedPath().includes(sortRef.current)) {
         setPopup(false);
       }
