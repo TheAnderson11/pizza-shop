@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef, useState } from 'react';
-import { SortType } from '../redux/slices/filterSlice';
+import { SortType } from '../redux/filter/types';
 
 type sortItem = {
   name: string;
@@ -22,10 +22,12 @@ export const SORT_LIST: sortItem[] = [
 const Sort: FC<sortProp> = ({ sort, onSortClick }) => {
   const sortRef = useRef<HTMLDivElement>(null);
   const [popup, setPopup] = useState(false);
-  const handlerPopup = (i: number) => {
-    onSortClick(i);
+
+  const handlerPopup = (value: sortItem) => {
+    onSortClick(value);
     setPopup(false);
   };
+
   useEffect(() => {
     const onClickOutside = (event: any) => {
       if (!event.composedPath().includes(sortRef.current)) {

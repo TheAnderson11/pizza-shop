@@ -20,6 +20,7 @@ const App = () => {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route path="" element={<Home />} />
+
         <Route
           path="cart"
           element={
@@ -28,8 +29,24 @@ const App = () => {
             </Suspense>
           }
         />
-        <Route path="pizza/:id" element={<FullPizza />} />
-        <Route path="*" element={<NotFoundBlock />} />
+
+        <Route
+          path="pizza/:id"
+          element={
+            <Suspense fallback={<div>Loading pizza page...</div>}>
+              <FullPizza />
+            </Suspense>
+          }
+        />
+
+        <Route
+          path="*"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <NotFoundBlock />
+            </Suspense>
+          }
+        />
       </Route>
     </Routes>
   );

@@ -18,7 +18,6 @@ export const axiosReqPizzas = createAsyncThunk<Pizza[], IQuery>(
             `https://64aaf2bd0c6d844abedf0487.mockapi.io/items?${paginateQuery}&
     ${categoryQuery}&${sortQuery}&${orderQuery}&${searchQuery}`,
         );
-
         return data;
     },
 );

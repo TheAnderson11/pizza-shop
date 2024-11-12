@@ -97,7 +97,7 @@ const Home: FC = () => {
     isSearch.current = false;
   }, [sort.sortProperty, categoryId, currentPage, search]); //request axios on server
   const skeleton = [...new Array(6)].map((_, id) => <Skeleton key={id} />);
-  const pizzas = items.map(obj => <PizzaBlock {...obj} />);
+  const pizzas = items.map(obj => <PizzaBlock key={obj.id} {...obj} />);
   return (
     <div className="container">
       <div className="content__top">
