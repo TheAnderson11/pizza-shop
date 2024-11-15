@@ -27,7 +27,7 @@ const Header: FC = () => {
   return (
     <div className="header">
       <div className="container">
-        <Link to="/">
+        <Link to="/pizza-shop/">
           <div className="header__logo">
             <img width="38" src={LOGO} alt="Pizza logo" />
             <div>
@@ -38,8 +38,8 @@ const Header: FC = () => {
         </Link>
         <Search />
         <div className="header__cart">
-          {pathname !== '/cart' && (
-            <Link to="/cart" className="button button--cart">
+          {pathname !== '/pizza-shop/cart' && (
+            <Link to="/pizza-shop/cart" className="button button--cart">
               <span>{itemPrice} $</span>
               <div className="button__delimiter"></div>
               <svg

@@ -18,11 +18,11 @@ const NotFoundBlock = lazy(
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<MainLayout />}>
-        <Route path="" element={<Home />} />
+      <Route path="/pizza-shop/" element={<MainLayout />}>
+        <Route path="/pizza-shop/" element={<Home />} />
 
         <Route
-          path="cart"
+          path="/pizza-shop/cart"
           element={
             <Suspense fallback={<div>Loading cart page...</div>}>
               <Cart />
@@ -31,7 +31,7 @@ const App = () => {
         />
 
         <Route
-          path="pizza/:id"
+          path="/pizza-shop/pizza/:id"
           element={
             <Suspense fallback={<div>Loading pizza page...</div>}>
               <FullPizza />
