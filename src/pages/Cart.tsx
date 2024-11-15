@@ -121,7 +121,7 @@ const Cart: FC = () => {
             </div>
             <div className="cart__bottom-buttons">
               <a
-                href="/"
+                href="/pizza-shop/"
                 className="button button--outline button--add go-back-btn"
               >
                 <svg
