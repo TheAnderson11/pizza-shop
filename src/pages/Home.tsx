@@ -46,6 +46,14 @@ const Home: FC = () => {
     }`;
     const searchQuery = `search=${search ? search : ''}`;
 
+    console.log('Запрос на сервер:', {
+      paginateQuery,
+      categoryQuery,
+      sortQuery,
+      orderQuery,
+      searchQuery,
+    });
+
     dispatch(
       axiosReqPizzas({
         paginateQuery,

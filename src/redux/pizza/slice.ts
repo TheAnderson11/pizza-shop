@@ -15,7 +15,7 @@ export const axiosReqPizzas = createAsyncThunk<Pizza[], IQuery>(
         const { paginateQuery, categoryQuery, sortQuery, orderQuery, searchQuery } =
             params;
         const { data } = await axios.get<Pizza[]>(
-            `https://64aaf2bd0c6d844abedf0487.mockapi.io/items?${paginateQuery}&
+            `http://localhost:3003/pizzas?${paginateQuery}&
     ${categoryQuery}&${sortQuery}&${orderQuery}&${searchQuery}`,
         );
         return data;
