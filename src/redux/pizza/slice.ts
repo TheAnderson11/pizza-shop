@@ -14,9 +14,15 @@ export const axiosReqPizzas = createAsyncThunk<Pizza[], IQuery>(
     async (params) => {
         const { paginateQuery, categoryQuery, sortQuery, orderQuery, searchQuery } =
             params;
+        const queryString = [
+            paginateQuery,
+            categoryQuery,
+            sortQuery,
+            orderQuery,
+            searchQuery
+        ].filter(Boolean).join('&');
         const { data } = await axios.get<Pizza[]>(
-            `http://localhost:3003/pizzas?${paginateQuery}&
-    ${categoryQuery}&${sortQuery}&${orderQuery}&${searchQuery}`,
+            `http://localhost:3003/pizzas?${queryString}`,
         );
         return data;
     },
