@@ -4,7 +4,8 @@ import router from './router.js';
 import mongoose from 'mongoose';
 
 const PORT = 3003;
-const URL = 'mongodb://localhost:27017/pizzaBox';
+const URL =
+  'mongodb+srv://andersonshtf3311:Root123@mongodbcluster.ijew0.mongodb.net/pizzaBox';
 
 const app = express();
 app.use(cors());
